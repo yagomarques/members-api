@@ -12,6 +12,8 @@ import (
 )
 
 func main() {
+	fmt.Println("Starting...")
+
 	routes := mux.NewRouter().StrictSlash(true)
 
 	routes.HandleFunc("/members", getMembers).Methods("GET")
@@ -28,22 +30,22 @@ type Member struct {
 	CELLPHONE string `json:"cellphone"`
 }
 
+var members = []Member{} //simule database
+
 type Response struct {
 	CODE    string `json:"code"`
 	MESSAGE string `json:"message"`
 }
 
-var members = []Member{}
-
 var responses = []Response{
-	Response{CODE: "0", MESSAGE: "member registred with sucess"},
+	Response{CODE: "0", MESSAGE: "member registed with sucess"},
 	Response{CODE: "1", MESSAGE: "quebrou"},
 }
 
 func getMembers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(members)
-	fmt.Println("TEST NO GET")
+	fmt.Println("ping get")
 }
 
 func getOneMember(w http.ResponseWriter, r *http.Request) {
@@ -66,5 +68,5 @@ func postMembers(w http.ResponseWriter, r *http.Request) {
 
 	members = append(members, newmember)
 	json.NewEncoder(w).Encode(responses[0])
-	fmt.Println("TEST NO POST")
+	fmt.Println("ping post")
 }
